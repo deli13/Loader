@@ -1,0 +1,23 @@
+{
+    "name": "deli13/loader",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "deli13",
+            "email": "death13life@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "symfony/debug": "4.4.x-dev",
+        "phpmailer/phpmailer": "dev-master",
+        "paragonie/easydb": "dev-master",
+        "php": ">=7.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "deli13\\": "app/"
+        }
+    }
+}
