@@ -10,7 +10,7 @@ use Symfony\Component\Debug\ExceptionHandler;
 
 class Logger
 {
-    private $email = ["Mikhail.Yakovlev@wagner-auto.ru"];
+    private $email = [];
 
     /**
      * Отправка логов
@@ -22,14 +22,14 @@ class Logger
         if (!is_string($trace)) {
             $trace = $this->createStringTrace($trace);
         }
-        $sender->sendMail($this->email, "Ошибки на wagner-auto.ru", $trace);
+        $sender->sendMail($this->email, "Ошибки", $trace);
     }
 
     /**
-     * Смена получателей логов
+     * Установка получателей логов
      * @param array $addr
      */
-    public function switchAddress(array $addr)
+    public function setAddress(array $addr)
     {
         $this->email = $addr;
     }
