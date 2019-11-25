@@ -2,6 +2,7 @@
 
 
 namespace deli13;
+
 use ParagonIE\EasyDB\EasyDB;
 use deli13\helper\Logger;
 use deli13\helper\Sender;
@@ -63,7 +64,7 @@ class Loader
      * Получение переменной окружения dev|prod
      * @return mixed
      */
-    public function getEnv() :string
+    public function getEnv(): string
     {
         return $this->env;
     }
@@ -110,6 +111,7 @@ class Loader
      */
     public function logger()
     {
+        $this->logger->setSender($this->mailer);
         return $this->logger;
     }
 
@@ -127,18 +129,17 @@ class Loader
      * @param \Closure $func
      * @return bool
      */
-    public function startSaveRunner(\Closure $func, bool $send_error = true): bool
+    public function startSaveRunner(\Closure $func, bool $send_error = true)
     {
         try {
-            $func();
+            return $func();
         } catch (\Exception|\Error|\TypeError $e) {
             if ($send_error) {
                 $this->logger()->sendLog($e);
             } else {
-                print_r("\n".$e->getMessage()."\n");
+                print_r("\n" . $e->getMessage() . "\n");
             }
             return false;
         }
-        return true;
     }
 }

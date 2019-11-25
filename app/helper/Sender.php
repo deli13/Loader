@@ -4,16 +4,13 @@
 namespace deli13\helper;
 
 use deli13\Exceptions\SenderException;
-use PHPMailer\PHPMailer\PHPMailer;
+
 
 class Sender
 {
-    private $smtp = false;
-    private $sendmail = true;
     private $smtp_config = [];
     private $from;
-
-
+    private $transport;
 
 
     /**
@@ -21,7 +18,7 @@ class Sender
      * @param string $from
      * @return $this
      */
-    public function setFrom(string $from)
+    public function setFrom(array $from)
     {
         $this->from = $from;
         return $this;
@@ -36,21 +33,32 @@ class Sender
      */
     public function sendMail($sender, $subject, $message)
     {
-        $mailer = $this->getMailer();
-        $mailer->setFrom($this->from);
+        $mailer = new \Swift_Mailer($this->transport);
+        $message = (new \Swift_Message($subject))
+            ->setFrom($this->from)
+            ->setCharset("UTF-8")
+            ->setBody($message, "text/html");
         if (is_array($sender)) {
-            foreach ($sender as $val) {
-                $mailer->addAddress($val);
+            foreach ($sender as $key=>$val) {
+                if($key==0){
+                    $message->setTo($val);
+                } else {
+                    $message->setCc($val);
+                }
             }
         } else if (is_string($sender)) {
-            $mailer->addAddress($sender);
+            $message->setTo($sender);
         } else {
             throw new SenderException("Отправители должны быть массивом или строкой");
         }
-        $mailer->isHTML(true);
-        $mailer->Subject = $subject;
-        $mailer->Body = $message;
-        return $mailer->send();
+
+
+        if ($mailer->send($message)) {
+            return true;
+        } else {
+            print_r($mailer->ErrorInfo);
+            return false;
+        }
     }
 
     /**
@@ -62,53 +70,36 @@ class Sender
     public function isSMTP(array $config)
     {
         self::validateSMTP($config);
-        $this->smtp = true;
-        $this->sendmail = false;
-        $this->smtp_config = $config;
+        $this->transport = (new \Swift_SmtpTransport($config["host"], $config["port"]))
+            ->setUsername($config["username"])
+            ->setPassword($config["password"])
+            ->setEncryption($config["secure"]);
         return $this;
     }
 
     /**
      * Установка механизма рассылки через SMTP
      */
-    public function isSendmail(){
-        $this->sendmail=true;
-        $this->smtp=false;
-    }
-
-    private static function validateSMTP(array $config)
+    public function isSendmail()
     {
-        $field = ["host", "port", "username", "password", "secure"];
-        foreach ($field as $value) {
-            if (!array_key_exists($value, $config)) {
-                throw new SenderException("Не верная конфигурация SMTP. Не указано ".$value);
-            }
-        }
-        return true;
+        $this->transport = new \Swift_SendmailTransport();
+        return $this;
     }
 
     /**
-     * Получение Мейлера
-     * @return PHPMailer
+     * Валидация Массива с данными для SMTP подключения
+     * @param array $config
+     * @return bool
+     * @throws SenderException
      */
-    private function getMailer()
+    private static function validateSMTP(array $config)
     {
-        $mailer = new PHPMailer(true);
-        $mailer->CharSet = "UTF-8";
-        if ($this->sendmail) {
-            $mailer->isSendmail();
-        } else if ($this->smtp) {
-            $mailer->isSMTP();
-            $mailer->SMTPAuth=true;
-            $mailer->Host=$this->smtp_config["host"];
-            $mailer->Username=$this->smtp_config["username"];
-            $mailer->Password=$this->smtp_config["password"];
-            $mailer->SMTPSecure=$this->smtp_config["secure"];
-            $mailer->Port=$this->smtp_config["port"];
-            $mailer->SMTPDebug=2;
-        } else {
-            throw new SenderException("Не выбрана авторизация");
+        $field = ["host", "port", "username", "password","secure"];
+        foreach ($field as $value) {
+            if (!array_key_exists($value, $config)) {
+                throw new SenderException("Не верная конфигурация SMTP. Не указано " . $value);
+            }
         }
-        return $mailer;
+        return true;
     }
 }

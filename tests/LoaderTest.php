@@ -21,17 +21,34 @@ class LoaderTest extends TestCase
     }
 
     public function testSetEnv(){
+        echo "Set enviroment\n";
         Loader::getInstance()->setEnv("dev");
         $this->assertStringContainsString("dev",Loader::getInstance()->getEnv());
     }
 
     public function testSetDB(){
+        echo "Set connection\n";
         Loader::getInstance()->setConnection(\ParagonIE\EasyDB\Factory::create("mysql:host=127.0.0.1;dbname=admindb","root","1234"));
         $this->assertInstanceOf(\ParagonIE\EasyDB\EasyDB::class,Loader::getInstance()->getConnection());
     }
 
     public function testDirectory(){
+        echo "Set Base Dir true\n";
         Loader::getInstance()->setBaseDir(dirname(__DIR__));
         $this->assertStringContainsString(dirname(__DIR__),Loader::getInstance()->getBaseDir());
+    }
+
+    public function testSaveRunner(){
+        echo "Save Runner true\n";
+        $this->assertTrue(Loader::getInstance()->startSaveRunner(function (){
+            return true;
+        },false));
+    }
+
+    public function testSaveRunnerFalse(){
+        echo "Save Runner false\n";
+        $this->assertFalse(Loader::getInstance()->startSaveRunner(function (){
+            throw new Exception("Exception");
+        },false));
     }
 }

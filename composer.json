@@ -11,9 +11,9 @@
     "minimum-stability": "dev",
     "require": {
         "symfony/debug": "4.4.x-dev",
-        "phpmailer/phpmailer": "dev-master",
         "paragonie/easydb": "dev-master",
-        "php": ">=7.1"
+        "php": ">=7.1",
+        "swiftmailer/swiftmailer": "^6.0"
     },
     "autoload": {
         "psr-4": {

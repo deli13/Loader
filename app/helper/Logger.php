@@ -11,18 +11,21 @@ use Symfony\Component\Debug\ExceptionHandler;
 class Logger
 {
     private $email = [];
-
+    private $sender;
     /**
      * Отправка логов
      * @param $trace
      */
     public function sendLog($trace)
     {
-        $sender = new Sender();
         if (!is_string($trace)) {
             $trace = $this->createStringTrace($trace);
         }
-        $sender->sendMail($this->email, "Ошибки", $trace);
+        $this->sender->sendMail($this->email, "Ошибки", $trace);
+    }
+
+    public function setSender(Sender $sender){
+        $this->sender=$sender;
     }
 
     /**
