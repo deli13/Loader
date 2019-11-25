@@ -19,5 +19,8 @@
         "psr-4": {
             "deli13\\": "app/"
         }
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7"
     }
 }

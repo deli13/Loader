@@ -3,6 +3,8 @@
 
 namespace deli13;
 use ParagonIE\EasyDB\EasyDB;
+use deli13\helper\Logger;
+use deli13\helper\Sender;
 
 class Loader
 {
@@ -49,7 +51,7 @@ class Loader
      * @param $env
      * @throws \ErrorException
      */
-    public function setEnv($env)
+    public function setEnv(string $env)
     {
         if (!in_array($env, ["dev", "prod"])) {
             throw new \ErrorException("Не правильно установлено окружение" . $env);
@@ -61,19 +63,11 @@ class Loader
      * Получение переменной окружения dev|prod
      * @return mixed
      */
-    public function getEnv()
+    public function getEnv() :string
     {
         return $this->env;
     }
 
-    /**
-     * Получение хелпера UMI
-     * @return UmiHelper
-     */
-    public function getHelper()
-    {
-        return $this->helper;
-    }
 
     /**
      * Получение экземпляра БД
