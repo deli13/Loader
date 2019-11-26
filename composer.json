@@ -10,8 +10,8 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "symfony/debug": "4.4.x-dev",
-        "paragonie/easydb": "dev-master",
+        "symfony/debug": "4.4.0",
+        "paragonie/easydb": "2.6",
         "php": ">=7.1",
         "swiftmailer/swiftmailer": "^6.0"
     },
