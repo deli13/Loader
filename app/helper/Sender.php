@@ -4,9 +4,10 @@
 namespace deli13\helper;
 
 use deli13\Exceptions\SenderException;
+use deli13\Interfaces\SenderInterface;
 
 
-class Sender
+class Sender implements SenderInterface
 {
     private $smtp_config = [];
     private $from;

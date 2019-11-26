@@ -3,6 +3,10 @@
 
 namespace deli13;
 
+use deli13\Exceptions\ContainerException;
+use deli13\Interfaces\ContainerInterface;
+use deli13\Interfaces\LoggerInterface;
+use deli13\Interfaces\SenderInterface;
 use ParagonIE\EasyDB\EasyDB;
 use deli13\helper\Logger;
 use deli13\helper\Sender;
@@ -15,13 +19,44 @@ class Loader
     private $env;
     private $logger;
     private $mailer;
+    private $store;
 
 
     protected function __construct()
     {
-
         $this->logger = new Logger();
         $this->mailer = new Sender();
+    }
+
+    /**
+     * Установка отправщика почты
+     * @param SenderInterface $sender
+     */
+    public function setMailer(SenderInterface $sender)
+    {
+        $this->mailer = new $sender();
+    }
+
+    /**
+     * Установка класса логирования
+     * @param LoggerInterface $logger
+     */
+    public function setLogger(LoggerInterface $logger)
+    {
+        $this->logger = new $logger();
+    }
+
+    public function setStore(ContainerInterface $store)
+    {
+        $this->store=$store;
+    }
+
+    public function getStore()
+    {
+        if(!($this->store instanceof ContainerInterface)){
+            throw new ContainerException("Контейнер не найден");
+        }
+        return $this->store;
     }
 
     /**

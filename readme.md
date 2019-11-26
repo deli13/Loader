@@ -21,7 +21,7 @@ app()->setBaseDir(dirname(__FILE__));
  */
 $connection = Factory::create("mysql:host=127.0.0.1;dbname=admindb", "root", "1234");
 app()->setConnection($connection);
-$all_action = app()->getConnection()->row("select * from t_action");
+$all_action = app()->getConnection()->run("select * from t_action");
 
 
 /**
