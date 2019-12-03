@@ -7,6 +7,7 @@ use deli13\Loader\Exceptions\ContainerException;
 use deli13\Loader\Interfaces\ContainerInterface;
 use deli13\Loader\Interfaces\LoggerInterface;
 use deli13\Loader\Interfaces\SenderInterface;
+use deli13\Loader\Util\Handlers;
 use ParagonIE\EasyDB\EasyDB;
 use deli13\Loader\helper\Logger;
 use deli13\Loader\helper\Sender;
@@ -176,5 +177,10 @@ class Loader
             }
             return false;
         }
+    }
+
+    public function setHandler(\Closure $function){
+        Handlers::setExceptionHandler($function);
+        Handlers::setErrorHandler($function);
     }
 }

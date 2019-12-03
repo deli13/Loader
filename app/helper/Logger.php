@@ -6,9 +6,7 @@ namespace deli13\Loader\helper;
 
 use deli13\Loader\Interfaces\LoggerInterface;
 use deli13\Loader\Interfaces\SenderInterface;
-use Symfony\Component\Debug\Exception\FlattenException;
-use Symfony\Component\Debug\ErrorHandler;
-use Symfony\Component\Debug\ExceptionHandler;
+use deli13\Loader\Util\Tracer;
 
 class Logger implements LoggerInterface
 {
@@ -21,7 +19,7 @@ class Logger implements LoggerInterface
     public function sendLog($trace)
     {
         if (!is_string($trace)) {
-            $trace = $this->createStringTrace($trace);
+            $trace = Tracer::createHtmlStringTrace($trace);
         }
         $this->sender->sendMail($this->email, "Ошибки", $trace);
     }
@@ -39,21 +37,6 @@ class Logger implements LoggerInterface
         $this->email = $addr;
     }
 
-    /**
-     * Создание письма на отправку для
-     * @param \Exception|\Throwable $trace
-     * @return false|string
-     */
-    private function createStringTrace($trace)
-    {
-        if($trace instanceof \Exception){
-            $e = FlattenException::create($trace);
-        } else if ($trace instanceof \Throwable) {
-            $e= FlattenException::createFromThrowable($trace);
-        }
-        $handler = new ExceptionHandler();
-        print_r($e->getAsString());
-        return $handler->getHtml($e);
-    }
+
 
 }

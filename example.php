@@ -43,4 +43,11 @@ app()
  */
 app()->startSaveRunner(function () {
     throw new Exception("Тест");
-}, true);
+}, false);
+/**
+ * Установка обработчика ошибок
+ */
+app()->setHandler(function ($ex){
+    $trace=\deli13\Loader\Util\Tracer::createConsoleStringTrace($ex);
+    echo $trace;
+});
