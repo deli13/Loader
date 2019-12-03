@@ -1,6 +1,6 @@
 <?php
 use PHPUnit\Framework\TestCase;
-use deli13\Loader;
+use deli13\Loader\Loader;
 
 class LoaderTest extends TestCase
 {
@@ -12,12 +12,12 @@ class LoaderTest extends TestCase
 
     public function testCanBeSender(){
         echo "Can Be Sender\n";
-        $this->assertInstanceOf(\deli13\helper\Sender::class,Loader::getInstance()->mailer());
+        $this->assertInstanceOf(\deli13\Loader\helper\Sender::class,Loader::getInstance()->mailer());
     }
 
     public function testCanBeLogger(){
         echo "Can Be Logger\n";
-        $this->assertInstanceOf(\deli13\helper\Logger::class,Loader::getInstance()->logger());
+        $this->assertInstanceOf(\deli13\Loader\helper\Logger::class,Loader::getInstance()->logger());
     }
 
     public function testSetEnv(){

@@ -4,7 +4,7 @@
 <?php
 require_once dirname(__FILE__) . "/vendor/autoload.php";
 
-use deli13\Loader;
+use deli13\Loader\Loader;
 use ParagonIE\EasyDB\Factory;
 
 function app()

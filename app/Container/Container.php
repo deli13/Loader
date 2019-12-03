@@ -1,11 +1,11 @@
 <?php
 
 
-namespace deli13\Container;
+namespace deli13\Loader\Container;
 
-use deli13\Exceptions\ContainerException;
-use deli13\Interfaces\ContainerInterface;
-use deli13\Interfaces\DependencyInterface;
+use deli13\Loader\Exceptions\ContainerException;
+use deli13\Loader\Interfaces\ContainerInterface;
+use deli13\Loader\Interfaces\DependencyInterface;
 
 class Container implements ContainerInterface
 {

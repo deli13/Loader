@@ -1,7 +1,7 @@
 <?php
 
 
-namespace deli13\Interfaces;
+namespace deli13\Loader\Interfaces;
 
 
 interface SenderInterface

@@ -17,7 +17,7 @@
     },
     "autoload": {
         "psr-4": {
-            "deli13\\": "app/"
+            "deli13\\Loader\\": "app/"
         }
     },
     "require-dev": {

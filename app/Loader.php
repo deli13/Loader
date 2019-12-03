@@ -1,15 +1,15 @@
 <?php
 
 
-namespace deli13;
+namespace deli13\Loader;
 
-use deli13\Exceptions\ContainerException;
-use deli13\Interfaces\ContainerInterface;
-use deli13\Interfaces\LoggerInterface;
-use deli13\Interfaces\SenderInterface;
+use deli13\Loader\Exceptions\ContainerException;
+use deli13\Loader\Interfaces\ContainerInterface;
+use deli13\Loader\Interfaces\LoggerInterface;
+use deli13\Loader\Interfaces\SenderInterface;
 use ParagonIE\EasyDB\EasyDB;
-use deli13\helper\Logger;
-use deli13\helper\Sender;
+use deli13\Loader\helper\Logger;
+use deli13\Loader\helper\Sender;
 
 class Loader
 {

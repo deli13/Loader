@@ -1,11 +1,11 @@
 <?php
 
 
-namespace deli13\helper;
+namespace deli13\Loader\helper;
 
 
-use deli13\Interfaces\LoggerInterface;
-use deli13\Interfaces\SenderInterface;
+use deli13\Loader\Interfaces\LoggerInterface;
+use deli13\Loader\Interfaces\SenderInterface;
 use Symfony\Component\Debug\Exception\FlattenException;
 use Symfony\Component\Debug\ErrorHandler;
 use Symfony\Component\Debug\ExceptionHandler;

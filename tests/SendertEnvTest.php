@@ -1,7 +1,7 @@
 <?php
 
-use deli13\Loader;
-use deli13\helper\Sender;
+use deli13\Loader\Loader;
+use deli13\Loader\helper\Sender;
 use PHPUnit\Framework\TestCase;
 
 class SenderEnvTest extends TestCase

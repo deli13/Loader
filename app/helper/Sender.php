@@ -1,10 +1,10 @@
 <?php
 
 
-namespace deli13\helper;
+namespace deli13\Loader\helper;
 
-use deli13\Exceptions\SenderException;
-use deli13\Interfaces\SenderInterface;
+use deli13\Loader\Exceptions\SenderException;
+use deli13\Loader\Interfaces\SenderInterface;
 
 
 class Sender implements SenderInterface

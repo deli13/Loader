@@ -1,12 +1,12 @@
 <?php
 
 
-namespace deli13\Interfaces;
+namespace deli13\Loader\Interfaces;
 
 /**
  * Interface ContainerInterface
  * Интерфейс контейнера
- * @package deli13\Interfaces
+ * @package deli13\Loader\Interfaces
  */
 interface ContainerInterface
 {
