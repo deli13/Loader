@@ -12,8 +12,14 @@ class Sender implements SenderInterface
     private $smtp_config = [];
     private $from;
     private $transport;
+    private $attach;
 
 
+    public function withAttachment(string $attach_file_path)
+    {
+        $this->attach=\Swift_Attachment::fromPath($attach_file_path);
+        return $this;
+    }
     /**
      * Установка от кого
      * @param string $from
@@ -39,6 +45,9 @@ class Sender implements SenderInterface
             ->setFrom($this->from)
             ->setCharset("UTF-8")
             ->setBody($message, "text/html");
+        if($this->attach){
+            $message->attach($this->attach);
+        }
         if (is_array($sender)) {
             foreach ($sender as $key=>$val) {
                 if($key==0){
@@ -55,6 +64,7 @@ class Sender implements SenderInterface
 
 
         if ($mailer->send($message)) {
+            $this->attach=null;
             return true;
         } else {
             print_r($mailer->ErrorInfo);
