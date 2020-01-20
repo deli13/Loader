@@ -17,9 +17,10 @@ class Sender implements SenderInterface
 
     public function withAttachment(string $attach_file_path)
     {
-        $this->attach=\Swift_Attachment::fromPath($attach_file_path);
+        $this->attach = \Swift_Attachment::fromPath($attach_file_path);
         return $this;
     }
+
     /**
      * Установка от кого
      * @param string $from
@@ -45,18 +46,13 @@ class Sender implements SenderInterface
             ->setFrom($this->from)
             ->setCharset("UTF-8")
             ->setBody($message, "text/html");
-        if($this->attach){
+        if ($this->attach) {
             $message->attach($this->attach);
         }
-        if (is_array($sender)) {
-            foreach ($sender as $key=>$val) {
-                if($key==0){
-                    $message->setTo($val);
-                } else {
-                    $message->setCc($val);
-                }
-            }
-        } else if (is_string($sender)) {
+        if (is_array($sender) && count($sender) > 1) {
+            $message->setTo(array_shift($sender));
+            $message->setCc($sender);
+        } else if (is_string($sender) || (is_array($sender) && count($sender) == 1)) {
             $message->setTo($sender);
         } else {
             throw new SenderException("Отправители должны быть массивом или строкой");
@@ -64,7 +60,7 @@ class Sender implements SenderInterface
 
 
         if ($mailer->send($message)) {
-            $this->attach=null;
+            $this->attach = null;
             return true;
         } else {
             print_r($mailer->ErrorInfo);
@@ -105,7 +101,7 @@ class Sender implements SenderInterface
      */
     private static function validateSMTP(array $config)
     {
-        $field = ["host", "port", "username", "password","secure"];
+        $field = ["host", "port", "username", "password", "secure"];
         foreach ($field as $value) {
             if (!array_key_exists($value, $config)) {
                 throw new SenderException("Не верная конфигурация SMTP. Не указано " . $value);
